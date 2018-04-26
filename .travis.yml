@@ -1,27 +1,16 @@
 language: go
-
-go:
-  - 1.9
-  - tip
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - go: tip
+#TODO: remove this
+go_import_path: github.com/src-d/rovers
 
 env:
-  - DBUSER=postgres DBPASS=
+  global:
+  - GOLANG_PACKAGE=github.com/src-d/rovers
+  - CONFIG_GITHUB_TOKEN=$GITHUB_TOKEN
+  matrix:
+  - GOLANG_IMAGE=golang:1.10-alpine
 
 services:
   - docker
-  - postgresql
-  - rabbitmq
-
-addons:
-  postgresql: "9.6"
-
-before_script:
-  - psql -c 'create database testing;' -U postgres
 
 script:
   - make test-coverage
