@@ -1,7 +1,9 @@
 go_import_path: github.com/src-d/rovers
 dist: trusty
 sudo: false
-os: linux
+os:
+  - linux
+  - osx
 language: go
 go:
   - 1.10.x
