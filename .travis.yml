@@ -20,7 +20,6 @@ before_script:
   - psql -c 'create database testing;' -U postgres
 script:
   - make test-coverage
-  - make packages
 jobs:
   include:
     - stage: deploy
@@ -29,7 +28,7 @@ jobs:
         - docker
       sudo: required
       go: 1.10.x
-      before_deploy:
+      script:
         - make packages
       deploy:
         provider: releases
