@@ -20,6 +20,10 @@ services:
 addons:
   postgresql: "9.6"
 before_script:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rm -rf /usr/local/var/postgres; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then initdb /usr/local/var/postgres; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pg_ctl -D /usr/local/var/postgres start; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then createuser -s postgres; fi
   - psql -c 'create database testing;' -U postgres
 script:
   - make test-coverage
