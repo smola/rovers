@@ -1,42 +1,45 @@
+dist: trusty
+sudo: false
+os: linux
 language: go
-
-go:
-  - 1.9
-  - tip
-
 matrix:
   fast_finish: true
   allow_failures:
     - go: tip
-
+  include:
+    - go: 1.10.x
+    - go: tip
 env:
   - DBUSER=postgres DBPASS=
-
 services:
-  - docker
   - postgresql
   - rabbitmq
-
 addons:
   postgresql: "9.6"
-
 before_script:
   - psql -c 'create database testing;' -U postgres
-
 script:
   - make test-coverage
-
-before_deploy:
   - make packages
-
-deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file_glob: true
-  file: build/*.tar.gz
-  skip_cleanup: true
-  on:
-    tags: true
-
-after_deploy:
-  -  DOCKER_PUSH_LATEST=1 make docker-push
+jobs:
+  include:
+    - stage: deploy
+      script: skip
+      services:
+        - docker
+      os: linux
+      dist: trusty
+      sudo: required
+      go: 1.10.x
+      before_deploy:
+        - make packages
+      deploy:
+        provider: releases
+        api_key: $GITHUB_TOKEN
+        file_glob: true
+        file: build/*.tar.gz
+        skip_cleanup: true
+        on:
+          tags: true
+      after_deploy:
+        -  DOCKER_PUSH_LATEST=1 make docker-push
