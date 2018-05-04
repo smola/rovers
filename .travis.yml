@@ -12,6 +12,9 @@ matrix:
   fast_finish: true
   allow_failures:
     - go: tip
+  exclude:
+    - go: tip
+      os: osx
 env:
   - DBUSER=postgres DBPASS= CONFIG_GITHUB_TOKEN=$GITHUB_TOKEN
 services:
