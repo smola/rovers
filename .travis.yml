@@ -21,15 +21,17 @@ before_script:
   - psql -c 'create database testing;' -U postgres
 script:
   - make test-coverage
+  - make packages
 jobs:
   include:
     - stage: deploy
+      if: tag
       script: skip
       services:
         - docker
       sudo: required
       go: 1.10.x
-      script:
+      before_deploy:
         - make packages
       deploy:
         provider: releases
@@ -37,7 +39,5 @@ jobs:
         file_glob: true
         file: build/*.tar.gz
         skip_cleanup: true
-        on:
-          tags: true
       after_deploy:
         -  DOCKER_PUSH_LATEST=1 make docker-push
