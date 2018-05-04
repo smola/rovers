@@ -11,7 +11,7 @@ matrix:
   allow_failures:
     - go: tip
 env:
-  - DBUSER=postgres DBPASS=
+  - DBUSER=postgres DBPASS= CONFIG_GITHUB_TOKEN=$GITHUB_TOKEN
 services:
   - postgresql
   - rabbitmq
