@@ -6,6 +6,7 @@ environment:
   DBUSER: postgres
   DBPASS: Password12!
   DBNAME: postgres
+  CONFIG_BROKER: amqp://guest:guest@127.0.0.1:5672 
 cache:
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey\ -> appveyor.yml
 services:
