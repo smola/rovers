@@ -16,4 +16,4 @@ install:
   - go version
 build: off
 test_script:
-  - make test
+  - mingw32-make test
