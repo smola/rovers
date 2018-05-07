@@ -3,6 +3,7 @@ package cgit
 import (
 	"database/sql"
 	"errors"
+	"path/filepath"
 	"io"
 	goURL "net/url"
 	"sync"
@@ -26,9 +27,9 @@ var _ = Suite(&CgitProviderSuite{})
 func (s *CgitProviderSuite) SetUpTest(c *C) {
 	httpmock.Activate()
 
-	test.LoadAsset("https://a3nm.net", "assets/a3nm", c)
-	test.LoadAsset("https://ongardie.net", "assets/ongardie", c)
-	test.LoadAsset("http://cgit.openembedded.org", "assets/openembedded", c)
+	test.LoadAsset("https://a3nm.net", filepath.Join("assets", "a3nm"), c)
+	test.LoadAsset("https://ongardie.net", filepath.Join("assets", "ongardie"), c)
+	test.LoadAsset("http://cgit.openembedded.org", filepath.Join("assets", "openembedded"), c)
 
 	DB := rcore.Database()
 	s.DB = DB
