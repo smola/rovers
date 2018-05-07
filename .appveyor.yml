@@ -1,8 +1,8 @@
 version: "{build}"
 platform: x64
-clone_folder: c:\gopath\src\github.com\src-d\rovers
+clone_folder: C:\gopath\src\github.com\src-d\rovers
 environment:
-  GOPATH: c:\gopath
+  GOPATH: C:\gopath
   DBUSER: postgres
   DBPASS: Password12!
   DBNAME: postgres
@@ -12,8 +12,8 @@ services:
   - postgresql96
 install:
   - choco install rabbitmq
-  - set PATH=%GOPATH%\bin;c:\go\bin;"C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin";"C:\Program Files\Git\mingw64\bin";%PATH%
+  - set PATH=%GOPATH%\bin;C:\go\bin;C:\msys64\usr\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;"C:\Program Files\Git\mingw64\bin";%PATH%
   - go version
 build: off
 test_script:
-  - mingw32-make -d test
+  - mingw32-make test
