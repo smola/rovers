@@ -3,9 +3,9 @@ package cgit
 import (
 	"database/sql"
 	"errors"
-	"path/filepath"
 	"io"
 	goURL "net/url"
+	"path/filepath"
 	"sync"
 
 	"github.com/src-d/rovers/core"
