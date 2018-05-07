@@ -10,7 +10,8 @@ services:
   - postgresql96
 install:
   - choco install rabbitmq
-  - set PATH=%GOPATH%\bin;c:\go\bin;"C:\Program Files\Git\mingw64\bin";%PATH%
+  - set PATH=%GOPATH%\bin;c:\go\bin;"C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\bin";"C:\Program Files\Git\mingw64\bin";%PATH%
   - go version
-build_script:
-  - go test -v ./...
+build: off
+test_script:
+  - mingw64-make test
