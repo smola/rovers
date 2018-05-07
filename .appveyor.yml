@@ -3,7 +3,10 @@ platform: x64
 clone_folder: c:\gopath\src\github.com\src-d\rovers
 environment:
   GOPATH: c:\gopath
+services:
+  - postgresql96
 install:
+  - choco install rabbitmq
   - set PATH=%GOPATH%\bin;c:\go\bin;"C:\Program Files\Git\mingw64\bin";%PATH%
   - go version
 build_script:
