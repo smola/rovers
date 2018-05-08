@@ -12,17 +12,21 @@ import (
 
 func LoadAsset(baseURL string, assetPath string, c *C) {
 	err := filepath.Walk(assetPath, func(p string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
 		if info.IsDir() {
 			return nil
 		}
 
 		responder := ResponderByFile(c, p)
-		p, err := filepath.Rel(assetPath, p)
+		p, err = filepath.Rel(assetPath, p)
 		if err != nil {
 			return err
 		}
 
-		url := baseURL + filepath.ToSlash(rel)
+		url := baseURL + filepath.ToSlash(p)
 		httpmock.RegisterResponder(
 			"GET",
 			url,
