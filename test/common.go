@@ -12,13 +12,18 @@ import (
 )
 
 func LoadAsset(baseURL string, assetPath string, c *C) {
-	filepath.Walk(assetPath, func(p string, info os.FileInfo, err error) error {
+	err := filepath.Walk(assetPath, func(p string, info os.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil
 		}
 
 		responder := ResponderByFile(c, p)
-		url := baseURL + filepath.ToSlash(strings.Replace(p, assetPath, "", 1))
+		p, err := filepath.Rel(assetPath, p)
+		if err != nil {
+			return err
+		}
+
+		url := baseURL + filepath.ToSlash(rel)
 		httpmock.RegisterResponder(
 			"GET",
 			url,
@@ -26,8 +31,7 @@ func LoadAsset(baseURL string, assetPath string, c *C) {
 		)
 
 		if strings.HasSuffix(p, "index.html") {
-			url = baseURL + filepath.ToSlash(
-				strings.Replace(path.Dir(p), assetPath, "", 1))
+			url = baseURL + filepath.ToSlash(filepath.Dir(p))
 
 			httpmock.RegisterResponder(
 				"GET",
@@ -48,6 +52,10 @@ func LoadAsset(baseURL string, assetPath string, c *C) {
 
 		return nil
 	})
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func ResponderByFile(c *C, file string) httpmock.Responder {
