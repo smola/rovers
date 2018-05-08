@@ -18,7 +18,7 @@ func LoadAsset(baseURL string, assetPath string, c *C) {
 		}
 
 		responder := ResponderByFile(c, p)
-		url := baseURL + strings.Replace(p, assetPath, "", 1)
+		url := baseURL + filepath.ToSlash(strings.Replace(p, assetPath, "", 1))
 		httpmock.RegisterResponder(
 			"GET",
 			url,
@@ -26,7 +26,8 @@ func LoadAsset(baseURL string, assetPath string, c *C) {
 		)
 
 		if strings.HasSuffix(p, "index.html") {
-			url = baseURL + strings.Replace(path.Dir(p), assetPath, "", 1)
+			url = baseURL + filepath.ToSlash(
+				strings.Replace(path.Dir(p), assetPath, "", 1))
 
 			httpmock.RegisterResponder(
 				"GET",
