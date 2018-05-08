@@ -71,7 +71,7 @@ func (s *CgitScraperSuite) TestCgitScraper_Next_EOF(c *C) {
 	scraper := newScraper("https://a3nm.net/git/")
 	var err error = nil
 	count := 0
-	for err != io.EOF {
+	for err == nil {
 		_, err = scraper.Next()
 		count++
 	}
@@ -86,7 +86,7 @@ func (s *CgitScraperSuite) TestCgitScraper_repoPageWithNoRepos(c *C) {
 	scraper := newScraper("https://a3nm.net/git/")
 	var err error = nil
 	count := 0
-	for err != io.EOF {
+	for err == nil {
 		_, err = scraper.Next()
 		count++
 	}
