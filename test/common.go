@@ -1,8 +1,11 @@
 package test
 
 import (
+	"fmt"
 	"io/ioutil"
+	"net/url"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -11,7 +14,12 @@ import (
 )
 
 func LoadAsset(baseURL string, assetPath string, c *C) {
-	err := filepath.Walk(assetPath, func(p string, info os.FileInfo, err error) error {
+	u, err := url.Parse(baseURL)
+	if err != nil {
+		panic(err)
+	}
+
+	err = filepath.Walk(assetPath, func(p string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -26,31 +34,12 @@ func LoadAsset(baseURL string, assetPath string, c *C) {
 			return err
 		}
 
-		url := baseURL + filepath.ToSlash(p)
-		httpmock.RegisterResponder(
-			"GET",
-			url,
-			responder,
-		)
+		//url := baseURL + filepath.ToSlash(p)
+		registerResponder(u, filepath.ToSlash(p), responder, false)
 
 		if strings.HasSuffix(p, "index.html") {
-			url = baseURL + filepath.ToSlash(filepath.Dir(p))
-
-			httpmock.RegisterResponder(
-				"GET",
-				url,
-				responder,
-			)
-
-			if !strings.HasSuffix(url, "/") {
-				url = url + "/"
-
-				httpmock.RegisterResponder(
-					"GET",
-					url,
-					responder,
-				)
-			}
+			p = filepath.ToSlash(filepath.Dir(p))
+			registerResponder(u, p, responder, true)
 		}
 
 		return nil
@@ -58,6 +47,27 @@ func LoadAsset(baseURL string, assetPath string, c *C) {
 
 	if err != nil {
 		panic(err)
+	}
+}
+
+func registerResponder(u *url.URL, p string, resp httpmock.Responder, index bool) {
+	baseURL := *u
+	baseURL.Path = path.Join("/", baseURL.Path, p)
+	fmt.Println("RegisterResponder", baseURL.String())
+	httpmock.RegisterResponder(
+		"GET",
+		baseURL.String(),
+		resp,
+	)
+
+	if index && !strings.HasSuffix(baseURL.Path, "/") {
+		baseURL.Path = baseURL.Path + "/"
+		fmt.Println("RegisterResponder", baseURL.String())
+		httpmock.RegisterResponder(
+			"GET",
+			baseURL.String(),
+			resp,
+		)
 	}
 }
 
