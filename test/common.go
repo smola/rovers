@@ -3,7 +3,6 @@ package test
 import (
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 
