@@ -36,8 +36,6 @@ before_script:
   # Reference https://github.com/travis-ci/travis-ci/issues/5941
   # Copied from https://github.com/pika/pika/pull/740/files
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      echo Installing RabbitMQ...;
-      echo "find / -name rabbitmq-server" `find / -name rabbitmq-server 2>/dev/null`;
       brew install rabbitmq;
 
       echo Starting RabbitMQ...;
