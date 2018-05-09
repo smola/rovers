@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/url"
 	"os"
@@ -53,7 +52,6 @@ func LoadAsset(baseURL string, assetPath string, c *C) {
 func registerResponder(u *url.URL, p string, resp httpmock.Responder, index bool) {
 	baseURL := *u
 	baseURL.Path = path.Join("/", baseURL.Path, p)
-	fmt.Println("RegisterResponder", baseURL.String())
 	httpmock.RegisterResponder(
 		"GET",
 		baseURL.String(),
@@ -62,7 +60,6 @@ func registerResponder(u *url.URL, p string, resp httpmock.Responder, index bool
 
 	if index && !strings.HasSuffix(baseURL.Path, "/") {
 		baseURL.Path = baseURL.Path + "/"
-		fmt.Println("RegisterResponder", baseURL.String())
 		httpmock.RegisterResponder(
 			"GET",
 			baseURL.String(),
