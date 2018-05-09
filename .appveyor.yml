@@ -13,7 +13,7 @@ environment:
 cache:
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey\ -> appveyor.yml
 install:
-  - set PATH=%GOPATH%\bin;C:\go\bin;C:\msys64\usr\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;"C:\Program Files\Git\mingw64\bin";%PATH%
+  - set PATH=%GOPATH%\bin;C:\go\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;C:\msys64\usr\bin;"C:\Program Files\Git\mingw64\bin";%PATH%
   - mingw32-make -d ci-install
   - echo post-ci-install
 build: off
