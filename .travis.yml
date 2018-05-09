@@ -16,7 +16,12 @@ matrix:
     - go: tip
       os: osx
 env:
-  - DBUSER=postgres DBPASS= CONFIG_GITHUB_TOKEN=$GITHUB_TOKEN POSTGRESQL_VERSION=9.6 RABBITMQ_VERSION=any
+  global:
+    - DBUSER=postgres
+    - DBPASS=
+    - CONFIG_GITHUB_TOKEN=$GITHUB_TOKEN
+  matrix:
+    - POSTGRESQL_VERSION=9.6 RABBITMQ_VERSION=any
 cache:
   directories:
     - $HOME/Library/Caches/Homebrew

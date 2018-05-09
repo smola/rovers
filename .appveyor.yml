@@ -17,3 +17,4 @@ install:
 build: off
 test_script:
   - mingw32-make ci-script
+deploy: off
