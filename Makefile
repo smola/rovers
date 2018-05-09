@@ -6,9 +6,9 @@ DOCKER_REGISTRY = quay.io
 DOCKER_ORG = srcd
 
 # Including ci Makefile
-CI_REPOSITORY ?= https://github.com/src-d/ci.git
+CI_REPOSITORY ?= https://github.com/smola/ci.git
 CI_PATH ?= .ci
-CI_VERSION ?= v1
+CI_VERSION ?= ci-improvements
 
 .SUFFIXES:
 

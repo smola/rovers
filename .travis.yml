@@ -16,36 +16,16 @@ matrix:
     - go: tip
       os: osx
 env:
-  - DBUSER=postgres DBPASS= CONFIG_GITHUB_TOKEN=$GITHUB_TOKEN
-services:
-  - postgresql
-  - rabbitmq
-addons:
-  postgresql: "9.6"
+  - DBUSER=postgres DBPASS= CONFIG_GITHUB_TOKEN=$GITHUB_TOKEN POSTGRESQL_VERSION=9.6 RABBITMQ_VERSION=any
 cache:
   directories:
     - $HOME/Library/Caches/Homebrew
+install:
+  - make ci-install
 before_script:
-  # https://github.com/travis-ci/travis-ci/issues/1875
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rm -rf /usr/local/var/postgres; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then initdb /usr/local/var/postgres; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pg_ctl -D /usr/local/var/postgres start; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then createuser -s postgres; fi
-  # Install RabbitMQ on OS X
-  # Workaround for Travis's failure to install and start RabbitMQ on osx builds
-  # Reference https://github.com/travis-ci/travis-ci/issues/5941
-  # Copied from https://github.com/pika/pika/pull/740/files
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install rabbitmq;
-
-      echo Starting RabbitMQ...;
-      export PATH="${PATH}:/usr/local/sbin";
-      sudo rabbitmq-server -detached;
-    fi
   - psql -c 'create database testing;' -U postgres
 script:
-  - make test-coverage
-  - make packages
+  - make ci-script
 jobs:
   include:
     - stage: deploy
