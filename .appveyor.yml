@@ -1,4 +1,4 @@
-version: "{build}"
+version: "{build}TEST"
 image: Visual Studio 2017
 platform: x64
 clone_folder: C:\gopath\src\github.com\src-d\rovers
