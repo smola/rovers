@@ -6,16 +6,14 @@ environment:
   DBUSER: postgres
   DBPASS: Password12!
   DBNAME: postgres
-  CONFIG_BROKER: amqp://guest:guest@127.0.0.1:5672 
+  CONFIG_BROKER: amqp://guest:guest@127.0.0.1:5672
+  POSTGRESQL_VERSION: 9.6
+  RABBITMQ_VERSION: any
 cache:
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey\ -> appveyor.yml
-services:
-  - postgresql96
 install:
-  - set PATH="C:\Program Files\erl9.2\bin";%GOPATH%\bin;C:\go\bin;C:\msys64\usr\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;"C:\Program Files\Git\mingw64\bin";%PATH%
-  - choco install rabbitmq --ignoredependencies -y
-  - ps: Start-Sleep -s 2
-  - go version
+  - set PATH="%GOPATH%\bin;C:\go\bin;C:\msys64\usr\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;"C:\Program Files\Git\mingw64\bin";%PATH%"
+  - mingw32-make ci-install
 build: off
 test_script:
-  - mingw32-make test
+  - mingw32-make ci-script
