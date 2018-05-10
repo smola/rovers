@@ -13,7 +13,8 @@ environment:
 cache:
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey\ -> appveyor.yml
 install:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1')) 
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - timeout 20000
   - set PATH=%GOPATH%\bin;C:\go\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;C:\msys64\usr\bin;%PATH%;"C:\Program Files\Git\mingw64\bin"
   - mingw32-make -d ci-install
   - echo post-ci-install
