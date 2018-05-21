@@ -29,5 +29,7 @@ jobs:
       if: tag IS present
       services:
         - docker
+      install: true
+      before_script: true
       script:
         - make ci-deploy
